@@ -1,59 +1,46 @@
-const signupForm = document.getElementById("signupForm");
-const loginForm = document.getElementById("loginForm");
+const authForm = document.getElementById("authForm");
+const formTitle = document.getElementById("form-title");
+const toggleLink = document.getElementById("toggleLink");
+const nameField = document.getElementById("nameField");
+const submitBtn = document.getElementById("submitBtn");
+const message = document.getElementById("message");
 
-// Signup
-if (signupForm) {
-    signupForm.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const formData = {
-            name: signupForm.name.value,
-            email: signupForm.email.value,
-            password: signupForm.password.value
-        };
+let isLogin = true; // toggle login/signup
 
-        try {
-            const res = await fetch(`${API_URL}/signup`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(formData)
-            });
-            const data = await res.json();
-            document.getElementById("message").innerText = data.message || "Signup successful!";
-            if (res.ok) {
-                localStorage.setItem("token", data.token); // store JWT
-                window.location.href = "index.html"; // redirect to homepage
-            }
-        } catch (err) {
-            console.error(err);
-            document.getElementById("message").innerText = "Error signing up.";
-        }
-    });
-}
+toggleLink.addEventListener("click", () => {
+  isLogin = !isLogin;
+  formTitle.textContent = isLogin ? "Login" : "Signup";
+  submitBtn.textContent = isLogin ? "Login" : "Signup";
+  nameField.style.display = isLogin ? "none" : "block";
+  toggleLink.textContent = isLogin ? "Signup here" : "Login here";
+  message.textContent = "";
+});
 
-// Login
-if (loginForm) {
-    loginForm.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const formData = {
-            email: loginForm.email.value,
-            password: loginForm.password.value
-        };
+authForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const name = authForm.name.value;
+  const email = authForm.email.value;
+  const password = authForm.password.value;
 
-        try {
-            const res = await fetch(`${API_URL}/login`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(formData)
-            });
-            const data = await res.json();
-            document.getElementById("loginMessage").innerText = data.message || "Login successful!";
-            if (res.ok) {
-                localStorage.setItem("token", data.token);
-                window.location.href = "index.html";
-            }
-        } catch (err) {
-            console.error(err);
-            document.getElementById("loginMessage").innerText = "Error logging in.";
-        }
-    });
-}
+  let users = JSON.parse(localStorage.getItem("users") || "[]");
+
+  if (isLogin) {
+    const user = users.find(u => u.email === email && u.password === password);
+    if (user) {
+      localStorage.setItem("currentUser", JSON.stringify(user));
+      window.location.href = "index.html";
+    } else {
+      message.textContent = "Invalid credentials!";
+    }
+  } else {
+    if (users.find(u => u.email === email)) {
+      message.textContent = "User already exists!";
+      return;
+    }
+    users.push({ name, email, password });
+    localStorage.setItem("users", JSON.stringify(users));
+    message.textContent = "Signup successful! You can login now.";
+    authForm.reset();
+    toggleLink.click(); // switch to login
+  }
+});
