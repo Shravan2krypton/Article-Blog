@@ -1,40 +1,76 @@
-
-// Fetch all blogs
-async function fetchBlogs() {
-    try {
-        const res = await fetch(API_URL);
-        const data = await res.json();
-        displayBlogs(data);
-    } catch (err) {
-        console.error("Error fetching blogs:", err);
-    }
+const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+if (!currentUser) {
+  window.location.href = "login-signup.html";
 }
 
-// Display blogs in the HTML
-function displayBlogs(blogs) {
-    const blogsContainer = document.getElementById("blogs");
-    const trendingContainer = document.getElementById("trendingBlogs");
+document.getElementById("userName").textContent = `Hello, ${currentUser.name}`;
 
-    blogsContainer.innerHTML = "";
-    trendingContainer.innerHTML = "";
+const logoutBtn = document.getElementById("logoutBtn");
+logoutBtn.addEventListener("click", () => {
+  localStorage.removeItem("currentUser");
+  window.location.href = "login-signup.html";
+});
 
-    // Sort blogs by likes/comments for trending
-    const trendingBlogs = [...blogs].sort((a, b) => (b.likes || 0) - (a.likes || 0)).slice(0, 5);
+// Blog handling
+const blogForm = document.getElementById("blogForm");
+const blogsContainer = document.getElementById("blogs");
+const trendingContainer = document.getElementById("trendingBlogs");
+const searchInput = document.getElementById("search");
 
-    trendingBlogs.forEach(blog => {
-        const div = document.createElement("div");
-        div.className = "blog-card";
-        div.innerHTML = `<h3>${blog.title}</h3><p>${blog.content.slice(0, 100)}...</p>`;
-        trendingContainer.appendChild(div);
-    });
+let blogs = JSON.parse(localStorage.getItem("blogs") || "[]");
 
-    blogs.forEach(blog => {
-        const div = document.createElement("div");
-        div.className = "blog-card";
-        div.innerHTML = `<h3>${blog.title}</h3><p>${blog.content.slice(0, 150)}...</p>`;
-        blogsContainer.appendChild(div);
-    });
+function displayBlogs(list) {
+  blogsContainer.innerHTML = "";
+  trendingContainer.innerHTML = "";
+
+  const trendingBlogs = [...list].sort((a,b)=>b.likes-b.likes).slice(0,5);
+
+  trendingBlogs.forEach(blog=>{
+    const div = document.createElement("div");
+    div.className = "blog-card";
+    div.innerHTML = `<h3>${blog.title}</h3><p>${blog.content.slice(0,100)}...</p><p>Likes: ${blog.likes||0}</p><button onclick="likeBlog('${blog.id}')">Like</button>`;
+    trendingContainer.appendChild(div);
+  });
+
+  list.forEach(blog=>{
+    const div = document.createElement("div");
+    div.className = "blog-card";
+    div.innerHTML = `<h3>${blog.title}</h3><p>${blog.content.slice(0,150)}...</p><p>Likes: ${blog.likes||0}</p><button onclick="likeBlog('${blog.id}')">Like</button>`;
+    blogsContainer.appendChild(div);
+  });
 }
 
-// Call fetchBlogs on page load
-window.addEventListener("DOMContentLoaded", fetchBlogs);
+function saveBlogs() {
+  localStorage.setItem("blogs", JSON.stringify(blogs));
+}
+
+blogForm.addEventListener("submit", (e)=>{
+  e.preventDefault();
+  const title = document.getElementById("title").value;
+  const content = document.getElementById("content").value;
+  const id = Date.now().toString();
+
+  blogs.unshift({ id, title, content, likes: 0, author: currentUser.name });
+  saveBlogs();
+  displayBlogs(blogs);
+  blogForm.reset();
+});
+
+// Like blog
+window.likeBlog = function(id){
+  const blog = blogs.find(b=>b.id===id);
+  if(blog){
+    blog.likes = (blog.likes||0)+1;
+    saveBlogs();
+    displayBlogs(blogs);
+  }
+}
+
+// Search
+searchInput.addEventListener("input", ()=>{
+  const filtered = blogs.filter(b=>b.title.toLowerCase().includes(searchInput.value.toLowerCase()));
+  displayBlogs(filtered);
+});
+
+// Initial display
+displayBlogs(blogs);
