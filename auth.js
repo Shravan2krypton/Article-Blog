@@ -5,8 +5,9 @@ const nameField = document.getElementById("nameField");
 const submitBtn = document.getElementById("submitBtn");
 const message = document.getElementById("message");
 
-let isLogin = true; // toggle login/signup
+let isLogin = true;
 
+// Toggle login/signup form
 toggleLink.addEventListener("click", () => {
   isLogin = !isLogin;
   formTitle.textContent = isLogin ? "Login" : "Signup";
@@ -16,12 +17,21 @@ toggleLink.addEventListener("click", () => {
   message.textContent = "";
 });
 
+// Demo sample users
+if(!localStorage.getItem("users")){
+  const sampleUsers = [
+    {name:"Alice", email:"alice@example.com", password:"123456"},
+    {name:"Bob", email:"bob@example.com", password:"123456"}
+  ];
+  localStorage.setItem("users", JSON.stringify(sampleUsers));
+}
+
+// Signup/Login
 authForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const name = authForm.name.value;
   const email = authForm.email.value;
   const password = authForm.password.value;
-
   let users = JSON.parse(localStorage.getItem("users") || "[]");
 
   if (isLogin) {
@@ -29,18 +39,16 @@ authForm.addEventListener("submit", (e) => {
     if (user) {
       localStorage.setItem("currentUser", JSON.stringify(user));
       window.location.href = "index.html";
-    } else {
-      message.textContent = "Invalid credentials!";
-    }
+    } else message.textContent = "Invalid credentials!";
   } else {
-    if (users.find(u => u.email === email)) {
-      message.textContent = "User already exists!";
+    if(users.find(u=>u.email===email)){
+      message.textContent="User already exists!";
       return;
     }
-    users.push({ name, email, password });
-    localStorage.setItem("users", JSON.stringify(users));
-    message.textContent = "Signup successful! You can login now.";
+    users.push({name,email,password});
+    localStorage.setItem("users",JSON.stringify(users));
+    message.textContent="Signup successful! Please login.";
     authForm.reset();
-    toggleLink.click(); // switch to login
+    toggleLink.click();
   }
 });
