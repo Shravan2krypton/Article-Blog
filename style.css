@@ -1,8 +1,42 @@
-body{margin:0;font-family:'Segoe UI',sans-serif;background:#f5f5f5;color:#333;transition:0.3s}
-header{display:flex;justify-content:space-between;align-items:center;padding:15px 30px;background:linear-gradient(45deg,#4caf50,#2e7d32);color:#fff}
-header h1{margin:0}nav button{margin-left:10px;padding:5px 12px;border:none;cursor:pointer;border-radius:5px}
-.auth-wrapper{display:flex;justify-content:center;align-items:center;height:100vh}
-.form-container{background:#fff;padding:25px;border-radius:10px;box-shadow:0 4px 15px rgba(0,0,0,0.2);width:350px;text-align:center}
+body{
+  margin:0;
+  font-family:'Segoe UI',sans-serif;
+  background:#f5f5f5;
+  color:#333;
+  transition:0.3s
+}
+header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:15px 30px;
+  background:linear-gradient(45deg,#4caf50,#2e7d32);
+  color:#fff
+}
+header h1{
+  margin:0
+}
+nav button{
+  margin-left:10px;
+  padding:5px 12px;
+  border:none;
+  cursor:pointer;
+  border-radius:5px
+}
+.auth-wrapper{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh
+}
+.form-container{
+  background:#fff;
+  padding:25px;
+  border-radius:10px;
+  box-shadow:0 4px 15px rgba(0,0,0,0.2);
+  width:350px;
+  text-align:center
+}
 input,textarea,button{width:100%;margin:10px 0;padding:8px;border-radius:5px;border:1px solid #ccc}
 button{background:#4caf50;color:#fff;font-weight:bold;transition:0.2s}
 button:hover{background:#45a049}
@@ -11,4 +45,9 @@ main{padding:20px}
 .blog-card{background:#fff;padding:15px;border-radius:8px;width:calc(33%-20px);box-shadow:0 4px 8px rgba(0,0,0,0.1);transition:0.3s}
 .blog-card:hover{transform:translateY(-5px);box-shadow:0 6px 12px rgba(0,0,0,0.15)}
 .trending-card{border:2px solid #ff5722}
-input#search
+input#search{padding:10px;margin-bottom:15px;font-size:1em}
+footer{text-align:center;padding:15px;background:#333;color:#fff;margin-top:20px}
+body.dark{background:#121212;color:#ddd}
+body.dark .blog-card{background:#1e1e1e;color:#ddd;box-shadow:0 4px 8px rgba(255,255,255,0.05)}
+body.dark header{background:#1b5e20}
+body.dark input,body.dark textarea{background:#333;color:#fff;border:1px solid #555}
