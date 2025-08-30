@@ -1,32 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Devnovate Blog Platform</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>Devnovate Blogs</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <h1>Devnovate Blogs</h1>
-        <nav>
-            <a href="signup.html">Signup</a> |
-            <a href="login.html">Login</a> |
-            <a href="blog.html">Submit Blog</a>
-        </nav>
-    </header>
+  <header>
+    <h1>Devnovate Blogs</h1>
+    <nav>
+      <span id="userName"></span>
+      <button id="logoutBtn">Logout</button>
+    </nav>
+  </header>
 
-    <main>
-        <section id="trending">
-            <h2>Trending Blogs</h2>
-            <div id="trendingBlogs" class="blog-container"></div>
-        </section>
+  <main>
+    <section id="addBlog">
+      <h2>Add a Blog</h2>
+      <form id="blogForm">
+        <input type="text" id="title" placeholder="Blog Title" required /><br/>
+        <textarea id="content" placeholder="Blog Content" required></textarea><br/>
+        <button type="submit">Post Blog</button>
+      </form>
+    </section>
 
-        <section id="allBlogs">
-            <h2>All Blogs</h2>
-            <div id="blogs" class="blog-container"></div>
-        </section>
-    </main>
+    <section id="trending">
+      <h2>Trending Blogs</h2>
+      <div id="trendingBlogs" class="blog-container"></div>
+    </section>
 
-    <script src="main.js"></script>
+    <section id="allBlogs">
+      <h2>All Blogs</h2>
+      <input type="text" id="search" placeholder="Search by title..."><br/><br/>
+      <div id="blogs" class="blog-container"></div>
+    </section>
+  </main>
+
+  <script src="main.js"></script>
 </body>
 </html>
