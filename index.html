@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Devnovate Blogs</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<title>Devnovate Blogs</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header>
@@ -11,31 +11,36 @@
     <nav>
       <span id="userName"></span>
       <button id="logoutBtn">Logout</button>
+      <button id="darkModeToggle">🌙 Dark Mode</button>
     </nav>
   </header>
 
   <main>
     <section id="addBlog">
-      <h2>Add a Blog</h2>
+      <h2>Create a New Blog</h2>
       <form id="blogForm">
-        <input type="text" id="title" placeholder="Blog Title" required /><br/>
-        <textarea id="content" placeholder="Blog Content" required></textarea><br/>
+        <input type="text" id="title" placeholder="Blog Title" required/>
+        <textarea id="content" placeholder="Blog Content" required></textarea>
         <button type="submit">Post Blog</button>
       </form>
     </section>
 
     <section id="trending">
-      <h2>Trending Blogs</h2>
+      <h2>🔥 Trending Blogs</h2>
       <div id="trendingBlogs" class="blog-container"></div>
     </section>
 
     <section id="allBlogs">
       <h2>All Blogs</h2>
-      <input type="text" id="search" placeholder="Search by title..."><br/><br/>
+      <input type="text" id="search" placeholder="Search blogs by title..."/>
       <div id="blogs" class="blog-container"></div>
     </section>
   </main>
 
-  <script src="main.js"></script>
+  <footer>
+    <p>&copy; 2025 Devnovate Blogs</p>
+  </footer>
+
+<script src="main.js"></script>
 </body>
 </html>
